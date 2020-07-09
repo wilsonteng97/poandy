@@ -1,4 +1,5 @@
 import json
+import datetime
 
 from poandy.util.objectless import Objectless
 
@@ -23,3 +24,11 @@ class Utils(Objectless):
     def get_authorization(cls):
         token = cls.get_config()["token"]
         return {"Authorization": f"Bearer {token}"}
+
+    @classmethod
+    def get_unix_timestamp(cls):
+        return datetime.datetime.now(datetime.timezone.utc).timestamp()
+
+    @classmethod
+    def get_ISO_datetime(cls, timestamp):
+        return datetime.datetime.fromtimestamp(timestamp, datetime.timezone.utc).isoformat()

@@ -1,16 +1,12 @@
-from poandy.util.utils import Utils
 from poandy.util.request import RequestSender, RequestType
-from poandy.util.objectless import Objectless
+from poandy.controller.base import Controller
 
-class AccountController(Objectless):
-    _config = Utils.get_config()
-    _authorization = Utils.get_authorization()
-    
+class AccountController(Controller):
     @classmethod
     def get_accounts(cls):
         url = f"{cls._config['base_url']}/v3/accounts"
         response = RequestSender.send(url, cls._authorization, RequestType.GET)
-        return response.json()["accounts"] if response.status_code == 200 else response.raise_for_status()
+        return response.json() if response.status_code == 200 else response.raise_for_status()
 
     @classmethod
     def get_default_account(cls):
@@ -29,14 +25,21 @@ class AccountController(Objectless):
         return response.json() if response.status_code == 200 else response.raise_for_status()
 
     @classmethod
-    def get_tradeable_instruments(cls, account_id, instruments=[]):
+    def get_tradeable_instruments(cls, account_id, names_only=False, instruments=[]):
+        if instruments and names_only:
+            raise Exception("names_only must be False if instruments is not empty")
         url = f"{cls._config['base_url']}/v3/accounts/{account_id}/instruments"
-        response = RequestSender.send(url, cls._authorization, RequestType.GET, {"instruments": instruments})
-        return response.json() if response.status_code == 200 else response.raise_for_status()
+        response = RequestSender.send(url, cls._authorization, RequestType.GET, params={"instruments": instruments})
+        if response.status_code != 200:
+            response.raise_for_status()
+        if not names_only:
+            return response.json()
+        else:
+            return [instrument["name"] for instrument in response.json()["instruments"]]
 
     # TODO: Somehow "since_transaction_id" needs to be 3. Oanda bug?
     @classmethod
     def get_account_changes(cls, account_id, since_transaction_id=None):
         url = f"{cls._config['base_url']}/v3/accounts/{account_id}/changes"
-        response = RequestSender.send(url, cls._authorization, RequestType.GET, {"sinceTransactionID": since_transaction_id})
+        response = RequestSender.send(url, cls._authorization, RequestType.GET, params={"sinceTransactionID": since_transaction_id})
         return response.json() if response.status_code == 200 else response.raise_for_status()
