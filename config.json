@@ -1,0 +1,4 @@
+{
+  "secrets_path": "secrets.json",
+  "base_url": "https://api-fxpractice.oanda.com"
+}
