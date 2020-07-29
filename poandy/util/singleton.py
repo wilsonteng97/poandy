@@ -4,6 +4,8 @@ Example usage:
 class SomeClass(metaclass=Singleton):
     ..
 """
+
+
 class Singleton(type):
     _instance = {}
 
