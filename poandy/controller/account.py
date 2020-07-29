@@ -1,6 +1,7 @@
 from poandy.util.request import RequestSender, RequestType
 from poandy.controller.base import Controller
 
+
 class AccountController(Controller):
     @classmethod
     def get_accounts(cls):
