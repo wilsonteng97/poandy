@@ -21,3 +21,15 @@ class OrderController(Controller):
         data["order"].update(other_params)
         response = RequestSender.send(url, cls._authorization, RequestType.POST, data=data)
         return response.json() if response.status_code == 201 else response.raise_for_status()
+
+    @classmethod
+    def get_orders(cls, account_id):
+        url = f"{cls._config['base_url']}/v3/accounts/{account_id}/orders"
+        response = RequestSender.send(url, cls._authorization, RequestType.GET)
+        return response.json() if response.status_code == 200 else response.raise_for_status()
+
+    @classmethod
+    def get_pending_orders(cls, account_id):
+        url = f"{cls._config['base_url']}/v3/accounts/{account_id}/pendingOrders"
+        response = RequestSender.send(url, cls._authorization, RequestType.GET)
+        return response.json() if response.status_code == 200 else response.raise_for_status()

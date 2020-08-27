@@ -7,6 +7,7 @@ from poandy.util.objectless import Objectless
 class RequestType(Enum):
     GET = auto()
     POST = auto()
+    PUT = auto()
 
 
 class RequestSender(Objectless):
@@ -16,6 +17,8 @@ class RequestSender(Objectless):
             return requests.get(endpoint, headers=headers, params=params, json=data)
         elif method == RequestType.POST:
             return requests.post(endpoint, headers=headers, params=params, json=data)
+        elif method == RequestType.PUT:
+            return requests.put(endpoint, headers=headers, params=params, json=data)
 
 
 class ParamsBuilder:
