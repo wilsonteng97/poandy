@@ -6,13 +6,16 @@ from poandy.util.objectless import Objectless
 
 class RequestType(Enum):
     GET = auto()
+    POST = auto()
 
 
 class RequestSender(Objectless):
     @staticmethod
-    def send(endpoint, headers, method, params=[]):
+    def send(endpoint, headers, method, params={}, data={}):
         if method == RequestType.GET:
-            return requests.get(endpoint, headers=headers, params=params)
+            return requests.get(endpoint, headers=headers, params=params, json=data)
+        elif method == RequestType.POST:
+            return requests.post(endpoint, headers=headers, params=params, json=data)
 
 
 class ParamsBuilder:

@@ -13,7 +13,6 @@ class InstrumentController(Controller):
     def get_orderbook(cls, instrument_name, datetime=None):
         url = f"{cls._config['base_url']}/v3/instruments/{instrument_name}/orderBook"
         response = RequestSender.send(url, cls._authorization, RequestType.GET, params={"time": datetime})
-        print(response.json())
         return response.json() if response.status_code == 200 else response.raise_for_status()
 
     @classmethod

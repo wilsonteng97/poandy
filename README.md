@@ -14,7 +14,7 @@ I'm using Python 3.8.5 on Windows Git Bash.
 ## Linter
 
 Use flake8 without line length limit.
-If using vscode, include in settings.json
+If using vscode, include the following in settings.json
 
     "python.linting.flake8Args": ["--max-line-length=200"]
 
