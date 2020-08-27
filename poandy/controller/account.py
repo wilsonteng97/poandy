@@ -10,8 +10,8 @@ class AccountController(Controller):
         return response.json() if response.status_code == 200 else response.raise_for_status()
 
     @classmethod
-    def get_default_account(cls):
-        return cls.get_accounts()[0]
+    def get_default_account_id(cls):
+        return cls.get_accounts()["accounts"][0]["id"]
 
     @classmethod
     def get_account_details(cls, account_id):
