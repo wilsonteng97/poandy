@@ -27,6 +27,17 @@ class Utils(Objectless):
         return {"Authorization": f"Bearer {token}"}
 
     @classmethod
+    def get_accept_datetime_format(cls):
+        return {"Accept-Datetime-Format": "UNIX"}
+
+    @classmethod
+    def get_headers(cls):
+        headers = {}
+        headers.update(cls.get_authorization())
+        headers.update(cls.get_accept_datetime_format())
+        return headers
+
+    @classmethod
     def get_unix_timestamp(cls):
         return datetime.datetime.now(datetime.timezone.utc).timestamp()
 

@@ -6,7 +6,7 @@ class AccountController(Controller):
     @classmethod
     def get_accounts(cls):
         url = f"{cls._config['base_url']}/v3/accounts"
-        response = RequestSender.send(url, cls._authorization, RequestType.GET)
+        response = RequestSender.send(url, cls._headers, RequestType.GET)
         return response.json() if response.status_code == 200 else response.raise_for_status()
 
     @classmethod
@@ -16,13 +16,13 @@ class AccountController(Controller):
     @classmethod
     def get_account_details(cls, account_id):
         url = f"{cls._config['base_url']}/v3/accounts/{account_id}"
-        response = RequestSender.send(url, cls._authorization, RequestType.GET)
+        response = RequestSender.send(url, cls._headers, RequestType.GET)
         return response.json() if response.status_code == 200 else response.raise_for_status()
 
     @classmethod
     def get_account_summary(cls, account_id):
         url = f"{cls._config['base_url']}/v3/accounts/{account_id}/summary"
-        response = RequestSender.send(url, cls._authorization, RequestType.GET)
+        response = RequestSender.send(url, cls._headers, RequestType.GET)
         return response.json() if response.status_code == 200 else response.raise_for_status()
 
     @classmethod
@@ -30,7 +30,7 @@ class AccountController(Controller):
         if instruments and names_only:
             raise Exception("names_only must be False if instruments is not empty")
         url = f"{cls._config['base_url']}/v3/accounts/{account_id}/instruments"
-        response = RequestSender.send(url, cls._authorization, RequestType.GET, params={"instruments": instruments})
+        response = RequestSender.send(url, cls._headers, RequestType.GET, params={"instruments": instruments})
         if response.status_code != 200:
             response.raise_for_status()
         if not names_only:
@@ -42,5 +42,5 @@ class AccountController(Controller):
     @classmethod
     def get_account_changes(cls, account_id, since_transaction_id=None):
         url = f"{cls._config['base_url']}/v3/accounts/{account_id}/changes"
-        response = RequestSender.send(url, cls._authorization, RequestType.GET, params={"sinceTransactionID": since_transaction_id})
+        response = RequestSender.send(url, cls._headers, RequestType.GET, params={"sinceTransactionID": since_transaction_id})
         return response.json() if response.status_code == 200 else response.raise_for_status()
