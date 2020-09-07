@@ -13,11 +13,13 @@ I'm using Python 3.8.5 on Windows Git Bash. Commands may differ.
         "token": "7851c27f3bb2bc0f39g3c6d6a3c6b42509e-4015643c1a6ca4651b0c6bd836bc8b8"
     }
     # create virtual environment
-    python -m venv venv
-    # activate virtual environment
-    . venv/Scripts/activate
+    conda create -n "poandy"
+    # activate virtual environment (need activate everytime before you work on repo)
+    conda activate poandy
     # install requirements
-    pip install -r requirements.txt
+    conda install --file requirements.txt
+    # when done
+    conda deactivate
 
 ## Linter
 
